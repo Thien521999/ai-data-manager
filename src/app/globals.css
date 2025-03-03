@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --main: #562c2c;
+  --acent: #f2542d;
+}
+
+@layer base {
+  body {
+    color: var(--main);
+  }
+}
+
+@layer utilities {
+  /* .text-balance {
+    text-wrap: balance;
+  } */
+}
+
+/* ct = custom */
+
+.ct-container {
+  @apply max-w-[1304px] px-4 sm:px-8 lg:px-8 w-full mx-auto;
+}
+
+.ct-top-menu-item {
+  @apply cursor-pointer py-1 hover:text-[#f2c094] relative after:absolute after:bottom-0 after:left-0 after:bg-[#f2c094] after:h-0.5 after:w-0 hover:after:w-full after:transition-all after:ease-in-out after:duration-300 flex items-center justify-center text-center;
+}
+
+.ct-activite {
+  @apply flex items-center justify-center gap-2 py-[6px] sm:py-2 px-4 border-[1.5px] border-[rgba(242,84,45,0.5)] rounded-[40px] bg-[#FAFAFA] h-8 sm:h-[44px] cursor-pointer;
+}
+
+.ct-activite-text {
+  @apply text-[14px] sm:text-[18px] md:text-[20px] font-medium leading-5 capitalize;
+}
