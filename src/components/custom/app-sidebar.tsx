@@ -7,6 +7,8 @@ import {
   SidebarHeader,
   SidebarRail,
 } from '@/components/ui/sidebar'
+import sampleData from '@/data/sample_data.json'
+import { useUser } from '@/hooks/useUser'
 import {
   // Database,
   FolderKanban,
@@ -16,19 +18,18 @@ import {
 import { useMemo } from 'react'
 import Logo from './logo'
 import { NavMain } from './nav-main'
-// import { NavProjects } from './nav-projects'
-import { useUser } from '@/hooks/useUser'
-import sampleData from '@/data/sample_data.json'
 import { NavUser } from './nav-user'
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const user = useUser()
-  // const role = getRoleFromLocalStorage()
-  // console.log(role)
 
   const data = useMemo(() => {
+    if (!user?.projects)
+      return {
+        navMain: [],
+      }
     const userProjectIds = user?.projects?.map((p) => p?.project_id) ?? []
-    const projects = sampleData?.projects?.filter((p) => userProjectIds.includes(p?.id))
+    const projects = sampleData?.projects?.filter((p) => userProjectIds?.includes(p?.id))
 
     const data = {
       navMain: [
@@ -98,7 +99,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={user} />
