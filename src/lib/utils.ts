@@ -21,3 +21,20 @@ export const removeRoleAndUserFromLocalStorage = () => {
     localStorage.removeItem('user')
   }
 }
+
+export const getTokenFromLocalStorage = () => {
+  return isBrowser ? localStorage.getItem('token') : null
+}
+
+export const removeTokensFromLocalStorage = () => {
+  if (isBrowser) {
+    localStorage.removeItem('token')
+  }
+}
+
+/**
+ * Xoa di ky tu '/' dau tien cua path
+ */
+export const normalizePath = (path: string) => {
+  return path.startsWith('/') ? path.slice(1) : path
+}

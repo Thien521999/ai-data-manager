@@ -38,12 +38,17 @@ export default function LoginForm() {
     formState: { isValid },
   } = form
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    const user = sampleData.users.filter((user) => user.email === values.email)?.[0]
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      const user = sampleData.users.filter((user) => user.email === values.email)?.[0]
 
-    localStorage.setItem('role', user.role)
-    localStorage.setItem('user', JSON.stringify(user))
-    router.push('/dashboard')
+      localStorage.setItem('role', user.role)
+      localStorage.setItem('user', JSON.stringify(user))
+
+      router.push('/dashboard')
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   function copyEmail(email: string) {
