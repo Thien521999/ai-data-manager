@@ -1,4 +1,3 @@
-// import authApiRequest from '@/libs/actions/auth'
 import authApiRequest from '@/apiRequests/auth'
 import { cookies } from 'next/headers'
 
