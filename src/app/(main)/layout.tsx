@@ -12,7 +12,7 @@ export default function MainLayout({
       <main className="w-full">
         <div className="flex gap-3 items-center">
           <SidebarTrigger className="pl-4" />
-          <span className="truncate font-semibold text-lg block md:hidden leading-tight">
+          <span className="truncate font-bold text-xl block md:hidden leading-tight">
             AI Data Manager
           </span>
         </div>
