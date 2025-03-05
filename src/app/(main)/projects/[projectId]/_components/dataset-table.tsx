@@ -43,6 +43,7 @@ export function DatasetTable({ datasets }: DatasetTableProps) {
               <TableHead>Description</TableHead>
               <TableHead>Locked</TableHead>
               <TableHead>Created At</TableHead>
+              <TableHead>Updated At</TableHead>
               {canLockUnlock && <TableHead>Actions</TableHead>}
             </TableRow>
           </TableHeader>
@@ -52,7 +53,8 @@ export function DatasetTable({ datasets }: DatasetTableProps) {
                 <TableCell>{dataset.name}</TableCell>
                 <TableCell>{dataset.description}</TableCell>
                 <TableCell>{dataset.is_locked ? '🔒 Locked' : '🔓 Open'}</TableCell>
-                <TableCell>{new Date(dataset.created_at).toLocaleDateString()}</TableCell>
+                <TableCell>{new Date(dataset.created_at).toLocaleDateString('vi-VN')}</TableCell>
+                <TableCell>{new Date(dataset.updated_at).toLocaleDateString('vi-VN')}</TableCell>
                 {canLockUnlock && (
                   <TableCell>
                     <DialogTrigger asChild>

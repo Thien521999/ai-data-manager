@@ -14,6 +14,7 @@ import {
   FolderKanban,
   // Package,
   SquareTerminal,
+  UsersIcon,
 } from 'lucide-react'
 import { useMemo } from 'react'
 import Logo from './logo'
@@ -30,6 +31,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       }
     const userProjectIds = user?.projects?.map((p) => p?.project_id) ?? []
     const projects = sampleData?.projects?.filter((p) => userProjectIds?.includes(p?.id))
+    const isAdmin = user?.role === 'admin'
+    const isOwnerOfAnyProject = user?.projects?.some((p) => p.role === 'owner')
 
     const data = {
       navMain: [
@@ -49,48 +52,20 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             url: `/projects/${p.id}`,
           })),
         },
-        // {
-        //   title: 'Datasets',
-        //   url: '/datasets',
-        //   icon: Database,
-        //   items: [
-        //     {
-        //       title: 'Genesis',
-        //       url: '#',
-        //     },
-        //     {
-        //       title: 'Explorer',
-        //       url: '#',
-        //     },
-        //     {
-        //       title: 'Quantum',
-        //       url: '#',
-        //     },
-        //   ],
-        // },
-        // {
-        //   title: 'Model Versions',
-        //   url: '/modals',
-        //   icon: Package,
-        //   items: [
-        //     {
-        //       title: 'Genesis',
-        //       url: '#',
-        //     },
-        //     {
-        //       title: 'Explorer',
-        //       url: '#',
-        //     },
-        //     {
-        //       title: 'Quantum',
-        //       url: '#',
-        //     },
-        //   ],
-        // },
+        ...(isAdmin || isOwnerOfAnyProject // Chỉ hiển thị nếu là Admin hoặc là Owner của ít nhất một Project
+          ? [
+              {
+                title: 'User Management',
+                url: '/users',
+                icon: UsersIcon,
+                items: [],
+              },
+            ]
+          : []),
       ],
     }
     return data
-  }, [user?.projects])
+  }, [user?.projects, user?.role])
 
   return (
     <Sidebar collapsible="icon" {...props}>
