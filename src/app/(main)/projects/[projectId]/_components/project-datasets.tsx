@@ -38,7 +38,7 @@ const ProjectDatasets = ({ project }: ProjectDatasetsProps) => {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">{project?.name}</h1>
+      <h1 className="text-lg md:text-xl font-bold">{project?.name}</h1>
 
       {/* 🔍 Search & Filter */}
       <Card className="p-2.5 md:p-4">
