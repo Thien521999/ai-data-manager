@@ -37,6 +37,7 @@ export function DataTable({ data }: DataTableProps) {
             <TableHead>Image</TableHead>
             <TableHead>Label</TableHead>
             <TableHead>Status</TableHead>
+            <TableHead>Created At</TableHead>
             <TableHead>Updated At</TableHead>
           </TableRow>
         </TableHeader>
@@ -56,7 +57,8 @@ export function DataTable({ data }: DataTableProps) {
               <TableCell>
                 <Badge className={getStatusColor(item.status)}>{item.status}</Badge>
               </TableCell>
-              <TableCell>{new Date(item.updated_at).toLocaleDateString()}</TableCell>
+              <TableCell>{new Date(item.created_at).toLocaleDateString('vi-VN')}</TableCell>
+              <TableCell>{new Date(item.updated_at).toLocaleDateString('vi-VN')}</TableCell>
             </TableRow>
           ))}
         </TableBody>

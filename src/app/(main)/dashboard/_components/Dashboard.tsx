@@ -20,10 +20,12 @@ import { SearchForm } from './search-form'
 export default function Dashboard() {
   const router = useRouter()
   const user = useUser()
-  const [search, setSearch] = useState('')
+  const [searchNameProject, setSearchNameProject] = useState('')
+  const [searchNameUser, setSearchNameUser] = useState('')
 
   // ✅ Debounce input để tránh lọc liên tục
-  const debouncedSearch = useDebounce(search, 400)
+  const debouncedsearchNameProject = useDebounce(searchNameProject, 400)
+  const debouncedsearchNameUser = useDebounce(searchNameUser, 400)
 
   const projects = useMemo(() => {
     if (!user?.projects) return []
@@ -35,12 +37,22 @@ export default function Dashboard() {
   // 🔍 Lọc theo tên project
   const filteredProjects = useMemo(() => {
     return projects?.filter((project) =>
-      project?.name.toLowerCase().includes(debouncedSearch.toLowerCase()),
+      project?.name.toLowerCase().includes(debouncedsearchNameProject.toLowerCase()),
     )
-  }, [debouncedSearch, projects])
+  }, [debouncedsearchNameProject, projects])
+
+  // 📌 Thêm phần Users
+  const users = useMemo(() => {
+    return sampleData?.users || []
+  }, [])
+  const filteredUsers = useMemo(() => {
+    return users?.filter((u) =>
+      u.name.toLowerCase().includes(debouncedsearchNameUser.toLowerCase()),
+    )
+  }, [debouncedsearchNameUser, users])
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 w-full">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 w-full">
       {/* Tổng quan */}
       <Card>
         <CardHeader>
@@ -51,13 +63,27 @@ export default function Dashboard() {
         </CardContent>
       </Card>
 
+      {/* 🆕 Tổng số Users */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Tổng số Users</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-4xl font-bold">{users?.length}</p>
+        </CardContent>
+      </Card>
+
       {/* Danh sách Projects */}
       <div className="col-span-1 md:col-span-3 w-full">
         <Card>
           <CardHeader>
             <CardTitle>Danh sách Projects</CardTitle>
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-              <SearchForm search={search} setSearch={setSearch} />
+              <SearchForm
+                search={searchNameProject}
+                setSearch={setSearchNameProject}
+                placeholder="Search by name project"
+              />
             </div>
           </CardHeader>
           <CardContent>
@@ -84,6 +110,50 @@ export default function Dashboard() {
                         Xem chi tiết
                       </Button>
                     </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* 🆕 Danh sách Users */}
+      <div className="col-span-1 md:col-span-2 w-full">
+        <Card>
+          <CardHeader>
+            <CardTitle>Danh sách Users</CardTitle>
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <SearchForm
+                search={searchNameUser}
+                setSearch={setSearchNameUser}
+                placeholder="Search by name user"
+              />
+            </div>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Name</TableHead>
+                  <TableHead>Role</TableHead>
+                  <TableHead>Số Projects</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredUsers?.map((user) => (
+                  <TableRow key={user.id}>
+                    <TableCell>{user.name}</TableCell>
+                    <TableCell>
+                      <span
+                        className={`px-2 py-1 text-xs rounded ${
+                          user.role === 'admin' ? 'bg-orange-500 text-white' : 'bg-gray-200'
+                        }`}
+                      >
+                        {user?.role?.toUpperCase()}
+                      </span>
+                    </TableCell>
+                    <TableCell>{user.projects.length}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

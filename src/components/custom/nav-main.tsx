@@ -53,7 +53,7 @@ export function NavMain({ items }: NavMainProps) {
                     tooltip={item.title}
                     onClick={() => {
                       if (item?.items?.length === 0) {
-                        router.push('/dashboard')
+                        router.push(item.url)
                       }
                     }}
                     className={
@@ -82,7 +82,7 @@ export function NavMain({ items }: NavMainProps) {
                               }
                             >
                               <span
-                                className="cursor-pointer truncate"
+                                className="cursor-pointer truncate w-full block"
                                 onClick={() => router.push(subItem.url)}
                               >
                                 {subItem.title}
