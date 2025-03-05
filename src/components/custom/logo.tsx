@@ -11,7 +11,7 @@ export default function Logo() {
         <GalleryVerticalEnd className="size-4" />
       </div>
       <div className="grid flex-1 text-left text-sm leading-tight">
-        <span className="truncate font-semibold">AI Manager</span>
+        <span className="truncate font-semibold">AI Data Manager</span>
       </div>
     </SidebarMenuButton>
   )
