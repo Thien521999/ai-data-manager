@@ -22,6 +22,7 @@ import {
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import sampleData from '@/data/sample_data.json'
 import { useUser } from '@/hooks/useUser'
+import { UserRoleType } from '@/lib/types'
 import { Trash, XCircle } from 'lucide-react'
 import { useState } from 'react'
 import AddUserForm from './add-user-form'
@@ -59,7 +60,7 @@ export default function UserTable() {
     <div className="p-6 border rounded-lg shadow-md bg-white">
       <h2 className="text-lg font-bold mb-4">User Management</h2>
       {/* Form thêm user */}
-      <AddUserForm userRole={currentUser?.role} />
+      <AddUserForm userRole={currentUser?.role as UserRoleType} />
 
       <Dialog>
         <Table className="mt-4">

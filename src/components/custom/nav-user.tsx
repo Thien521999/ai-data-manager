@@ -16,17 +16,18 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar'
+import { useAppStore } from '@/contexts/app'
 import { UserType } from '@/lib/types'
-import { removeRoleAndUserFromLocalStorage } from '@/lib/utils'
 import { BadgeCheck, Bell, ChevronsUpDown, LogOut } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
 export function NavUser({ user }: { user: UserType }) {
   const { isMobile } = useSidebar()
   const router = useRouter()
+  const logout = useAppStore((state) => state.logout)
 
-  const handleLogout = () => {
-    removeRoleAndUserFromLocalStorage()
+  const handleLogout = async () => {
+    await logout()
     router.push('/login')
   }
 

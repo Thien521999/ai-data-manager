@@ -1,12 +1,10 @@
 'use client'
+import { UserType } from '@/lib/types'
 import { getTokenFromLocalStorage, removeTokensFromLocalStorage } from '@/lib/utils'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import {
-  // createContext,
-  ReactNode,
-  useEffect,
-} from 'react'
+import { del, get, set as idbSet } from 'idb-keyval'
+import { ReactNode, useEffect } from 'react'
 import { create } from 'zustand'
 
 const queryClient = new QueryClient({
@@ -21,10 +19,15 @@ const queryClient = new QueryClient({
 })
 
 // Zustand
-
 type AppStoreType = {
   isAuth: boolean
   setIsAuth: (isAuth: boolean) => void
+  role: string
+  setRole: (role: string) => void
+  user: UserType | undefined
+  setUser: (user: UserType) => void
+  loadUser: () => Promise<void>
+  logout: () => Promise<void>
 }
 
 export const useAppStore = create<AppStoreType>((set) => ({
@@ -34,6 +37,26 @@ export const useAppStore = create<AppStoreType>((set) => ({
     if (!isAuth) {
       removeTokensFromLocalStorage()
     }
+  },
+  role: 'user',
+  setRole: (role) => {
+    set({ role })
+    if (!role) {
+      removeTokensFromLocalStorage()
+    }
+  },
+  user: undefined,
+  setUser: async (user) => {
+    set({ user })
+    await idbSet('user', user)
+  },
+  loadUser: async () => {
+    const user = await get('user') // Lấy lại từ IndexedDB
+    if (user) set({ user })
+  },
+  logout: async () => {
+    await del('user') // Xóa user khỏi IndexedDB
+    set({ user: undefined, isAuth: false, role: 'user' }) // Reset Zustand using undefined
   },
 }))
 
@@ -51,6 +74,12 @@ export default function AppProvider({ children }: AppProviderProps) {
       setIsAuth(true)
     }
   }, [setIsAuth])
+
+  const loadUser = useAppStore((state) => state.loadUser)
+
+  useEffect(() => {
+    loadUser()
+  }, [loadUser]) // Load user khi app khởi động
 
   return (
     <QueryClientProvider client={queryClient}>

@@ -10,12 +10,14 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { useAppStore } from '@/contexts/app'
 import sampleData from '@/data/sample_data.json'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import UserTestList from './user-test-list'
+import { ProjectRoleType, UserRoleType, UserType } from '@/lib/types'
 
 const formSchema = z.object({
   email: z.string().email({ message: 'Invalid email address' }),
@@ -23,6 +25,9 @@ const formSchema = z.object({
 
 export default function LoginForm() {
   const router = useRouter()
+
+  const setRole = useAppStore((state) => state.setRole)
+  const setUser = useAppStore((state) => state.setUser)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -45,9 +50,18 @@ export default function LoginForm() {
         return
       }
 
-      localStorage.setItem('role', user.role)
-      localStorage.setItem('user', JSON.stringify(user))
+      // Transform the user data to match UserType
+      const typedUser: UserType = {
+        ...user,
+        role: user.role as UserRoleType,
+        projects: user.projects.map((p) => ({
+          ...p,
+          role: p.role as ProjectRoleType,
+        })),
+      }
 
+      setRole(typedUser.role)
+      setUser(typedUser)
       router.push('/dashboard')
     } catch (error) {
       console.log(error)

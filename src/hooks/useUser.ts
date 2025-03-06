@@ -1,10 +1,8 @@
 'use client'
 
-import { UserType } from '@/lib/types'
-import { getUserFromLocalStorage } from '@/lib/utils'
+import { useAppStore } from '@/contexts/app'
 
 export const useUser = () => {
-  const user = getUserFromLocalStorage()
-  const parseData: UserType = user && JSON.parse(user)
-  return parseData
+  const user = useAppStore((state) => state.user)
+  return user
 }
