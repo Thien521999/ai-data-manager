@@ -62,6 +62,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               },
             ]
           : []),
+        // {
+        //   title: 'Model Versions',
+        //   url: '/model-versions',
+        //   icon: SquareTerminal,
+        //   items: [],
+        // },
       ],
     }
     return data
