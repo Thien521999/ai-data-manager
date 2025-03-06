@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/sidebar'
 import sampleData from '@/data/sample_data.json'
 import { useUser } from '@/hooks/useUser'
+import { UserType } from '@/lib/types'
 import {
   // Database,
   FolderKanban,
@@ -82,7 +83,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={user} />
+        <NavUser user={user as UserType} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
