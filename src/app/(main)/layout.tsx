@@ -10,7 +10,7 @@ export default function MainLayout({
     <SidebarProvider>
       <AppSidebar />
       <main className="w-full">
-        <div className="flex gap-3 items-center">
+        <div className="flex gap-3 items-center mt-3 sm:mt-0">
           <SidebarTrigger className="pl-4" />
           <span className="truncate font-bold text-xl block md:hidden leading-tight">
             AI Data Manager
